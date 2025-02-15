@@ -1,4 +1,5 @@
 import requests
 
-endpoint = "http://localhost:8000"
-print(requests.get(endpoint))
+endpoint = "http://localhost:8000/api"
+resp = requests.get(endpoint)
+print(resp.content)
