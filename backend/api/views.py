@@ -6,7 +6,12 @@ from products.models import Product
 from products.serializers import ProductSerializer
 
 
-@api_view(["GET"])
+@api_view(["GET", "POST"])
 def home(request, *args, **kwargs):
-    instance = Product.objects.all().order_by("?").first()
-    return Response(data=ProductSerializer(instance).data, status=status.HTTP_200_OK)
+    if request.method.lower() == "get":
+        instance = Product.objects.all().order_by("?").first()
+        return Response(data=ProductSerializer(instance).data, status=status.HTTP_200_OK)
+    if request.method.lower() == "post":
+        serializer = ProductSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        return Response(data=serializer.data, status=status.HTTP_201_CREATED)
