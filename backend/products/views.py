@@ -28,9 +28,15 @@ class ProductUpdateApiView(generics.UpdateAPIView):
     serializer_class = ProductSerializer
 
 
+class ProductDestroyApiView(generics.DestroyAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
+
 product_detail_view = ProductDetailApiView.as_view()
 product_create_list_view = ProductListCreateApiView.as_view()
 product_update_view = ProductUpdateApiView.as_view()
+product_destroy_view = ProductDestroyApiView.as_view()
 
 # FUNCTION BASED API VIEW -> NOT PRACTICAL, TOO MUCH WORK, BUT BETTER CONTROL
 @api_view(["GET", "POST"])
