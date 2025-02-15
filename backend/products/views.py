@@ -9,8 +9,7 @@ class ProductDetailApiView(generics.RetrieveAPIView):
     serializer_class = ProductSerializer
 
 
-
-class ProductCreateApiView(generics.CreateAPIView):
+class ProductListCreateApiView(generics.ListCreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
@@ -21,4 +20,4 @@ class ProductCreateApiView(generics.CreateAPIView):
         serializer.save(content=content)
 
 product_detail_view = ProductDetailApiView.as_view()
-product_create_view = ProductCreateApiView.as_view()
+product_create_list_view = ProductListCreateApiView.as_view()
