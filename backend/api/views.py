@@ -1,11 +1,12 @@
-from django.forms.models import model_to_dict
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+
 from products.models import Product
+from products.serializers import ProductSerializer
 
 
-@api_view(http_method_names=["get"])
+@api_view(["GET"])
 def home(request, *args, **kwargs):
-    product = Product.objects.all().order_by("?").first()
-    return Response(data=model_to_dict(product), status=status.HTTP_200_OK)
+    instance = Product.objects.all().order_by("?").first()
+    return Response(data=ProductSerializer(instance).data, status=status.HTTP_200_OK)
