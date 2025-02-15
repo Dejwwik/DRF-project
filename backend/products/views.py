@@ -23,10 +23,16 @@ class ProductListCreateApiView(generics.ListCreateAPIView):
         serializer.save(content=content)
 
 
+class ProductUpdateApiView(generics.UpdateAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
+
 product_detail_view = ProductDetailApiView.as_view()
 product_create_list_view = ProductListCreateApiView.as_view()
+product_update_view = ProductUpdateApiView.as_view()
 
-
+# FUNCTION BASED API VIEW -> NOT PRACTICAL, TOO MUCH WORK, BUT BETTER CONTROL
 @api_view(["GET", "POST"])
 def product_alt_view(request, pk=None, *args, **kwargs):
     method = request.method
