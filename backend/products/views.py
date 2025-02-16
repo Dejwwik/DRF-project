@@ -5,7 +5,7 @@ from rest_framework.response import Response
 
 from .models import Product
 from .serializers import ProductSerializer
-from api.mixins import StaffEditorPermissionMixin
+from api.mixins import StaffEditorPermissionMixin, UserQuerySetMixin
 
 
 class ProductDetailApiView(generics.RetrieveAPIView):
@@ -13,14 +13,11 @@ class ProductDetailApiView(generics.RetrieveAPIView):
     serializer_class = ProductSerializer
 
 
-class ProductListCreateApiView(generics.ListCreateAPIView, StaffEditorPermissionMixin):
-    queryset = Product.objects.all()
+class ProductListCreateApiView(
+    UserQuerySetMixin, StaffEditorPermissionMixin, generics.ListCreateAPIView
+):
     serializer_class = ProductSerializer
-
-    def get_queryset(self, *args, **kwargs):
-        qs = super().get_queryset()
-        request = self.request
-        return qs.filter(user=request.user)
+    queryset = Product.objects.all()
 
     def perform_create(self, serializer: ProductSerializer):
         content = serializer.validated_data.get("content")
