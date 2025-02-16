@@ -1,11 +1,11 @@
-from rest_framework import generics, status, permissions
+from rest_framework import generics, status
 from rest_framework.decorators import api_view
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 
 from .models import Product
 from .serializers import ProductSerializer
-from .permissions import IsStaffEditorPermissions
+from api.mixins import StaffEditorPermissionMixin
 
 
 class ProductDetailApiView(generics.RetrieveAPIView):
@@ -13,10 +13,9 @@ class ProductDetailApiView(generics.RetrieveAPIView):
     serializer_class = ProductSerializer
 
 
-class ProductListCreateApiView(generics.ListCreateAPIView):
+class ProductListCreateApiView(generics.ListCreateAPIView, StaffEditorPermissionMixin):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    permission_classes = [permissions.IsAdminUser, IsStaffEditorPermissions]
 
     def perform_create(self, serializer: ProductSerializer):
         content = serializer.validated_data.get("content")
@@ -25,16 +24,14 @@ class ProductListCreateApiView(generics.ListCreateAPIView):
         serializer.save(content=content)
 
 
-class ProductUpdateApiView(generics.UpdateAPIView):
+class ProductUpdateApiView(generics.UpdateAPIView, StaffEditorPermissionMixin):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    permission_classes = [permissions.IsAdminUser, IsStaffEditorPermissions]
 
 
-class ProductDestroyApiView(generics.DestroyAPIView):
+class ProductDestroyApiView(generics.DestroyAPIView, StaffEditorPermissionMixin):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    permission_classes = [permissions.IsAdminUser, IsStaffEditorPermissions]
 
 
 product_detail_view = ProductDetailApiView.as_view()

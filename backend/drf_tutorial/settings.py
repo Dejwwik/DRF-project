@@ -135,6 +135,6 @@ REST_FRAMEWORK = {
         "api.authentication.BearerAuthentication",
     ],
     "DEFAULT_PERMISSIONS_CLASSES": [
-        "rest_framework.authentication.IsAuthenticatedOrReadOnly",
+        "rest_framework.permissions.IsAuthenticatedOrReadOnly",
     ],
 }
