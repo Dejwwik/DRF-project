@@ -10,8 +10,11 @@ from products.serializers import ProductSerializer
 def home(request, *args, **kwargs):
     if request.method.lower() == "get":
         instance = Product.objects.all().order_by("?").first()
-        return Response(data=ProductSerializer(instance).data, status=status.HTTP_200_OK)
+        return Response(
+            data=ProductSerializer(instance, context={"request": request}).data,
+            status=status.HTTP_200_OK,
+        )
     if request.method.lower() == "post":
-        serializer = ProductSerializer(data=request.data)
+        serializer = ProductSerializer(data=request.data, context={"request": request})
         serializer.is_valid(raise_exception=True)
         return Response(data=serializer.data, status=status.HTTP_201_CREATED)
