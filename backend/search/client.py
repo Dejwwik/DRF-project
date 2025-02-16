@@ -13,5 +13,9 @@ def perform_search(query, index_name="Product", **kwargs):
         tags = kwargs.pop("tags") or []
         if len(tags):
             params["tagFilters"] = tags
+
+    index_filters = [f"{k}:{v}" for k, v in kwargs.items()]
+    if index_filters:
+        params["facetFilters"] = index_filters
     results = client.search_single_index(index_name, params)
     return results

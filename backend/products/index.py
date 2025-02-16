@@ -8,3 +8,8 @@ class ProductIndex(AlgoliaIndex):
     should_index = "is_public"
     fields = ("title", "content", "public")
     tags = "get_tags_list"
+
+    settings = {
+        "searchableAttributes": ["title", "content"],
+        "attributesForFaceting": ["public"],
+    }
