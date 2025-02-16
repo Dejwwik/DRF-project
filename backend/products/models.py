@@ -11,6 +11,7 @@ class Product(models.Model):
     user = models.ForeignKey(
         User, on_delete=models.SET_NULL, null=True, related_name="products"
     )
+    public = models.BooleanField(default=True)
 
     @property
     def sale_price(self):
