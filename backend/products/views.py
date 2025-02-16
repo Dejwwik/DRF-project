@@ -17,11 +17,16 @@ class ProductListCreateApiView(generics.ListCreateAPIView, StaffEditorPermission
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
+    def get_queryset(self, *args, **kwargs):
+        qs = super().get_queryset()
+        request = self.request
+        return qs.filter(user=request.user)
+
     def perform_create(self, serializer: ProductSerializer):
         content = serializer.validated_data.get("content")
         if not content:
             content = serializer.validated_data["title"]
-        serializer.save(content=content)
+        serializer.save(content=content, user=self.request.user)
 
 
 class ProductUpdateApiView(generics.UpdateAPIView, StaffEditorPermissionMixin):
