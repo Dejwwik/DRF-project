@@ -1,4 +1,4 @@
-from rest_framework import generics, status, permissions, authentication
+from rest_framework import generics, status, permissions
 from rest_framework.decorators import api_view
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from .models import Product
 from .serializers import ProductSerializer
 from .permissions import IsStaffEditorPermissions
+
 
 class ProductDetailApiView(generics.RetrieveAPIView):
     queryset = Product.objects.all()
@@ -15,10 +16,6 @@ class ProductDetailApiView(generics.RetrieveAPIView):
 class ProductListCreateApiView(generics.ListCreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    authentication_classes = [
-        authentication.SessionAuthentication,
-        authentication.TokenAuthentication
-    ]
     permission_classes = [permissions.IsAdminUser, IsStaffEditorPermissions]
 
     def perform_create(self, serializer: ProductSerializer):
@@ -31,17 +28,20 @@ class ProductListCreateApiView(generics.ListCreateAPIView):
 class ProductUpdateApiView(generics.UpdateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+    permission_classes = [permissions.IsAdminUser, IsStaffEditorPermissions]
 
 
 class ProductDestroyApiView(generics.DestroyAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+    permission_classes = [permissions.IsAdminUser, IsStaffEditorPermissions]
 
 
 product_detail_view = ProductDetailApiView.as_view()
 product_create_list_view = ProductListCreateApiView.as_view()
 product_update_view = ProductUpdateApiView.as_view()
 product_destroy_view = ProductDestroyApiView.as_view()
+
 
 # FUNCTION BASED API VIEW -> NOT PRACTICAL, TOO MUCH WORK, BUT BETTER CONTROL
 @api_view(["GET", "POST"])
@@ -53,17 +53,13 @@ def product_alt_view(request, pk=None, *args, **kwargs):
         if pk is not None:
             instance = get_object_or_404(Product, pk=pk)
             return Response(
-                data=ProductSerializer(instance).data,
-                status=status.HTTP_200_OK
+                data=ProductSerializer(instance).data, status=status.HTTP_200_OK
             )
 
         # List get method /products/
         queryset = Product.objects.all()
         data = ProductSerializer(queryset, many=True).data
-        return Response(
-            data = data,
-            status = status.HTTP_200_OK
-        )
+        return Response(data=data, status=status.HTTP_200_OK)
 
     if method == "POST":
         serializer = ProductSerializer(data=request.data)
