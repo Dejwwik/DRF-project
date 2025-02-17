@@ -44,9 +44,8 @@ function handleSearch(event) {
     }
     const authToken = localStorage.getItem("access")
     if (authToken){
-        headers["Authorization"] = "Bearer" + authToken
+        headers["Authorization"] = "Bearer " + authToken
     }
-
     const options = {
         method: "GET",
         headers: headers
