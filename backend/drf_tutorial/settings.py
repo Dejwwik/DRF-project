@@ -24,17 +24,13 @@ ENV_DIR = BASE_DIR.parent
 env = environ.Env()
 environ.Env.read_env(os.path.join(ENV_DIR, ".env"))
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-rz=e4ua7!ki==)@g!uyviy-l^vkuas52v%)4w22&!04n$p!0(-"
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+SECRET_KEY = env(
+    "SECRET_KEY",
+    default="django-insecure-rz=e4ua7!ki==)@g!uyviy-l^vkuas52v%)4w22&!04n$p!0(-",
+)
+DEBUG = env("DEBUG", default=False)
 
 ALLOWED_HOSTS = []
-
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -47,6 +43,7 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt",
     "rest_framework.authtoken",
     "algoliasearch_django",
+    "corsheaders",
 ]
 
 INSTALLED_APPS += [
@@ -58,6 +55,7 @@ INSTALLED_APPS += [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -66,6 +64,14 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = "drf_tutorial.urls"
+CORS_URLS_REGEX = r"^/api/.*"
+
+CORS_ALLOWED_ORIGINS = []
+if DEBUG:
+    CORS_ALLOWED_ORIGINS += [
+        "http://localhost:8111",
+        "https://localhost:8111",
+    ]
 
 TEMPLATES = [
     {
