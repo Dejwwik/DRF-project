@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+import datetime
 import os
 
 import environ
@@ -140,8 +141,8 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework.authentication.SessionAuthentication",
-        "api.authentication.BearerAuthentication",
         "rest_framework_simplejwt.authentication.JWTAuthentication",
+        "api.authentication.BearerAuthentication",
     ],
     "DEFAULT_PERMISSIONS_CLASSES": [
         "rest_framework.permissions.IsAuthenticatedOrReadOnly",
@@ -159,4 +160,10 @@ ALGOLIA = {
         "read_timeout": 50,
         "write_timeout": 50,
     },
+}
+
+SIMPLE_JTW = {
+    "AUTH_HEADER_TYPES": ["Bearer"],
+    "ACCESS_TOKEN_LIFETIME": datetime.timedelta(seconds=30),
+    "REFRESH_TOKEN_LIFETIME": datetime.timedelta(minutes=1),
 }
