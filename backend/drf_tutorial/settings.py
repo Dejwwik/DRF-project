@@ -155,11 +155,6 @@ REST_FRAMEWORK = {
 ALGOLIA = {
     "APPLICATION_ID": env("APPLICATION_ID"),
     "API_KEY": env("API_KEY"),
-    "SEARCH_TIMEOUTSs": {
-        "connect_timeout": 20,
-        "read_timeout": 50,
-        "write_timeout": 50,
-    },
 }
 
 SIMPLE_JTW = {
