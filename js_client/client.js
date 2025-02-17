@@ -9,13 +9,13 @@ if (loginForm) {
 function handleLogin(event) {
     console.log(event)
     event.preventDefault()
-    const loginEndpoint = `${baseEndpoint}/token`
+    const loginEndpoint = `${baseEndpoint}/token/`
     let loginFormData = new FormData(loginForm)
     let loginObjectData = Object.fromEntries(loginFormData)
     const options = {
         method: "POST",
         headers : {
-            ContentType: "application/json",
+            "Content-Type": "application/json",
         },
         body: JSON.stringify(loginObjectData),
     }
