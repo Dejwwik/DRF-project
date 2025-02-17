@@ -1,7 +1,7 @@
 # Django Rest Framework Project - Product API with Search
 
 This project implements a simple Product API using Django Rest Framework (DRF).<br/>
-The API interacts with a third-party service for search functionality via [algolia](https://www.algolia.com/)
+The API interacts with [algolia](https://www.algolia.com/) a third-party service for search functionality
 
 ## Requirements
 - Python 3.12.8+
@@ -54,7 +54,7 @@ Visit the Django Admin Panel at http://127.0.0.1:8000/admin and log in using the
 
 ## API Consumption<br/>
 ### 1. Using Python Client (py_client)<br/>
-To consume the API using Python, you can use py_client.py:
+To consume the API using Python, you can use py_client.py
 
 ### 2. Using JS Client (js_client)<br/>
 For consuming the API using a UI with JavaScript, you can use js_client.js
